@@ -22,5 +22,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('insert_topic/', insert_topic, name='insert_topic'),
     path('insert_webpage/', insert_webpage, name='insert_webpage'),
-    path('insert_AccessRecord/', insert_AccessRecord, name='AccessRecord'),
+    path('insert_AccessRecord/', insert_AccessRecord, name='insert_AccessRecord'),
+    path('displayTopic/', displayTopic, name='displayTopic'), # type: ignore
+    path('displayWebpage/', displayWebpage, name='displayWebpage'), # type: ignore
+    path('displayAccessrecord/', displayAccessrecord, name='displayAccessrecord'), # type: ignore
+
+
+
 ]
