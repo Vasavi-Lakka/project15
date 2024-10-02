@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from app.models import *
 from django.http import HttpResponse
+from django.db.models.functions import Length
 # Create your views here.
 def insert_topic(request):
     tn=input('enter topic name: ')
@@ -8,6 +9,7 @@ def insert_topic(request):
     if TO[1]:
         topics=Topic.objects.all()
         d={'topics':topics}
+
         return render(request,'displayTopic.html',d)
         #return HttpResponse("New object is created")
     else:
@@ -23,9 +25,11 @@ def insert_webpage(request):
 
     if QLTO:
         TO=QLTO[0]
-        WO=webpage.objects.get_or_create(topic_name=TO, name=n, url=u)
         webpages=webpage.objects.all()
+        WO=webpage.objects.get_or_create(topic_name=TO, name=n, url=u)
         d={'webpages': webpages}
+        #webpages=webpage.objects.all()
+
         return render(request,'displayWebpage.html',d)
         #return HttpResponse("New object is created")
     else:
@@ -62,20 +66,65 @@ def insert_AccessRecord(request):
 
 def displayTopic(request):
     topics=Topic.objects.all()
+    # d={'topics':topics}
+    topics=Topic.objects.all().order_by(Length('topic_name').desc())
+    #topics=Topic.objects.filter(topic_name='Cricket').order_by(Length('topic_name').desc())
+    topics=Topic.objects.exclude(topic_name='cricket')
+    topics=Topic.objects.exclude(topic_name='Cricket')
+    topics=Topic.objects.filter(topic_name__startswith='C')
+    topics=Topic.objects.filter(topic_name__endswith='y')
+    topics=Topic.objects.filter(topic_name__contains='a,c,v')
+    topics=Topic.objects.filter(topic_name__in='a')
+    topics=Topic.objects.filter(topic_name__regex=r'^c/w+')
+
+
     d={'topics':topics}
     return render(request,'displayTopic.html',d)
 
 def displayWebpage(request):
+    #webpages=webpage.objects.all()
+    #d={'webpages':webpages}
+    webpages=webpage.objects.all().order_by(Length('name').desc())
+    #webpages=webpage.objects.filter(topic_name = 'Cricket').order_by(Length('name').desc())
+    #webpages=webpage.objects.exclude(topic_name='Cricket')
+    #webpages=webpage.objects.exclude(topic_name='cricket')
+    webpages=webpage.objects.all()[2:4:]
     webpages=webpage.objects.all()
+    webpages=webpage.objects.exclude(topic_name='Cricket').order_by('-topic_name')
+    webpages=webpage.objects.exclude(topic_name='Cricket').order_by('-id')
+    webpages=webpage.objects.exclude(topic_name='Cricket').order_by(Length('topic_name').desc())
+    webpages=webpage.objects.filter(topic_name = 'Cricket').order_by(Length('name').desc())
+    webpages=webpage.objects.exclude(topic_name='Cricket').order_by(Length('topic_name').desc())
     d={'webpages':webpages}
     return render(request,'displayWebpage.html',d)
 
 def displayAccessrecord(request):
     accessrecord=AccessRecord.objects.all()
+    accessrecord=AccessRecord.objects.all().order_by('name')
+    accessrecord=AccessRecord.objects.all().order_by('-name')
+    accessrecord=AccessRecord.objects.all().order_by(Length('author'))
+    accessrecord=AccessRecord.objects.filter(author='Chandhru').order_by(Length('name').desc())
+
     d={'accessrecord': accessrecord}
     return render(request, 'displayAccessrecord.html',d)
                   
-                  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#get or create method
                   
 '''
 def insert_topic(request):
