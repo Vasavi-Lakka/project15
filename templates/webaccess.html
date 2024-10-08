@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <center>
+        <h1>Web Access</h1>
+        {% for WO in LWAO %}
+            <h1>Topic name: {{WO.topic_name}}</h1>
+            <h2>name: {{WO.name}}</h2>
+            <h2>url: {{WO.url}}</h2>
+            {% for AO in WO.accessrecord_set.all %}
+                <h3>Acess_Name is: {{AO.name}}</h3>
+                <h3>Author name: {{ AO.author}}</h3>
+                <h3>date: {{AO.date}}</h3>
+            {% endfor %}
+        {% endfor %}
+    </center>
+</body>
+</html>

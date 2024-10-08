@@ -26,7 +26,8 @@ urlpatterns = [
     path('displayTopic/', displayTopic, name='displayTopic'), # type: ignore
     path('displayWebpage/', displayWebpage, name='displayWebpage'), # type: ignore
     path('displayAccessrecord/', displayAccessrecord, name='displayAccessrecord'), # type: ignore
-
+    path('topicweb/', topicweb, name='topicweb'),
+    path('webaccess/', webaccess, name='webaccess'),
 
 
 ]

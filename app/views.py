@@ -64,6 +64,12 @@ def insert_AccessRecord(request):
 
 
 
+
+
+
+
+
+
 def displayTopic(request):
     topics=Topic.objects.all()
     # d={'topics':topics}
@@ -111,7 +117,15 @@ def displayAccessrecord(request):
 
 
 
+def topicweb(request):
+    LTWO=Topic.objects.prefetch_related('webpage_set').all()
+    d={'LTWO': LTWO}
+    return render(request, 'topicweb.html', d)
 
+def webaccess(request):
+    LWAO=webpage.objects.prefetch_related('accessrecord_set').all()
+    d={'LWAO': LWAO}
+    return render(request, 'webaccess.html', d)
 
 
 
