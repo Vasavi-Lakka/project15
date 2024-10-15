@@ -2,6 +2,9 @@ from django.shortcuts import render
 from app.models import *
 from django.http import HttpResponse
 from django.db.models.functions import Length
+from django.db.models import Q, OuterRef,Subquery
+
+
 # Create your views here.
 def insert_topic(request):
     tn=input('enter topic name: ')
@@ -113,11 +116,11 @@ def displayAccessrecord(request):
 
     d={'accessrecord': accessrecord}
     return render(request, 'displayAccessrecord.html',d)
-                  
 
 
-
-def topicweb(request):
+#prfetch_related
+'''
+def  topicweb(request):
     LTWO=Topic.objects.prefetch_related('webpage_set').all()
     d={'LTWO': LTWO}
     return render(request, 'topicweb.html', d)
@@ -125,7 +128,65 @@ def topicweb(request):
 def webaccess(request):
     LWAO=webpage.objects.prefetch_related('accessrecord_set').all()
     d={'LWAO': LWAO}
-    return render(request, 'webaccess.html', d)
+    return render(request, 'webaccess.html', d)'''
+
+
+def updateWebpage(request):
+    webpages=webpage.objects.all()
+
+    '''where John their url changing from .in to https://John.com'''
+    #webpage.objects.filter(name='John').update(url='https://John.com')
+
+    ''' where tn is Khokho changin their url to https://Khokho.com '''
+    #webpage.objects.filter(topic_name='Khokho').update(url='https://Khokho.com')
+
+    ''' Zero rows satisfying condition becoz programming tn is not there'''
+    #webpage.objects.filter(topic_name='Programming').update(url='https://Boxing.com')
+
+    #webpage.objects.filter(id=16).update(name='Gopi Chandu') it will update
+
+
+    #below query gives error 
+    '''Becoz while we are updating parent table cols we should provide the values which
+       are present in parent table'''
+    #webpage.objects.filter(id=3).update(topic_name='hockey')
+    #webpage.objects.filter(name='Chandu').update(topic_name='Programming')
+
+
+    
+    #below gives error
+    ''' We cannot multiple rows by using update_or_create method'''
+    #webpage.objects.update_or_create(name='Maasy', defaults={'url':'https://hardik.com'})
+    #webpage.objects.update_or_create(topic_name='Hockey', defaults={'url':'https://hardik.com'})
+
+
+    #Below error Becoz
+    '''while we are updating parent table  column we should provide
+        the parent table object directly'''
+    #webpage.objects.update_or_create(name='Hadhik', defaults={'topic_name':'Cricket'})
+
+    #TO=Topic.objects.get(topic_name='Cricket')
+
+    #webpage.objects.update_or_create(name='Hardhik', defaults={'topic_name':TO})
+   
+    #webpage.objects.update_or_create(name='Suhas', defaults={'topic_name':TO})
+
+    #webpage.objects.update_or_create(name='Harshad Vali',defaults={'url':'https:/shaik.in'})
+    webpages=webpage.objects.all()
+    d={'webpages':webpages}
+    return render(request, 'displayWebpage.html', d)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
